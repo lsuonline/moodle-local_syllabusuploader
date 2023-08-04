@@ -45,7 +45,8 @@ $url = new moodle_url($CFG->wwwroot . '/local/syllabusuploader/view.php');
 $PAGE->set_context($context);
 $PAGE->set_url($url);
 $PAGE->set_title(get_string('manage_viewer', 'local_syllabusuploader'));
-$PAGE->navbar->add(get_string('syllabusuploader_settings', 'local_syllabusuploader'), new moodle_url($CFG->wwwroot. "/admin/settings.php?section=localsettingsyllabusuploader"));
+$PAGE->navbar->add(get_string('settings', 'local_syllabusuploader'), new moodle_url($CFG->wwwroot. "/admin/settings.php?section=syllabusuploader"));
+$PAGE->navbar->add(get_string('manage_viewer', 'local_syllabusuploader'), new moodle_url($CFG->wwwroot. "/local/syllabusuploader/view.php"));
 
 // Use the upload model to manage syllabus files.
 $model = new upload_model();

@@ -73,8 +73,10 @@ if ($id) {
 $PAGE->set_context($context);
 $PAGE->set_url($url, $params);
 $PAGE->set_title(format_string($uploadfile->name));
-$PAGE->navbar->add(get_string('syllabusuploader_settings', 'local_syllabusuploader'), new moodle_url($CFG->wwwroot. "/admin/settings.php?section=localsettingsyllabusuploader"));
+$PAGE->navbar->add(get_string('settings', 'local_syllabusuploader'), new moodle_url($CFG->wwwroot. "/admin/settings.php?section=syllabusuploader"));
+$PAGE->navbar->add(get_string('manage_uploader', 'local_syllabusuploader'), new moodle_url($CFG->wwwroot. "/local/syllabusuploader/uploader.php"));
 $PAGE->set_heading(get_string('syllabusuploader_uploadstring','local_syllabusuploader'));
+$PAGE->set_pagelayout('base');
 
 // Set the contect.
 $context = context_system::instance();
