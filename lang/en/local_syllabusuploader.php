@@ -24,6 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Syllabus Uploader';
+$string['settings'] = 'Uploader Settings';
 $string['foldername'] = 'Manage Syllabus';
 $string['adminname'] = 'Manage Syllabus Uploads';
 

@@ -30,7 +30,7 @@ $fn = new lang_string('foldername', 'local_syllabusuploader');
 $ADMIN->add('localplugins', new admin_category('local_syllabusuploader_folder', $fn));
 
 // Create the local settings.
-$settings = new admin_settingpage($section, get_string('settings'));
+$settings = new admin_settingpage($section="syllabusuploader", get_string('settings', 'local_syllabusuploader'));
 
 // Make sure only admins see this one.
 if ($ADMIN->fulltree) {
