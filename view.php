@@ -23,7 +23,6 @@
 
 require (dirname(dirname(dirname(__FILE__))) . '/config.php');
 require (dirname(__FILE__) . '/classes/models/upload_model.php');
-require (dirname(__FILE__) . '/lib.php');
 
 // Require the user is logged in.
 require_login();
