@@ -42,27 +42,69 @@ class syllabusuploader_helpers {
         }
     }
 
-    public static function get_system_file_list() {
+    public static function get_system_file_list($sort) {
+        // Get the copy file path.
+        $settingspath = get_config('moodle', 'local_syllabusuploader_copy_file');
 
-        $settingspath = get_config('moodle', "local_syllabusuploader_copy_file");
-        $nonmoodlefilestemp = scandir($settingspath, SCANDIR_SORT_DESCENDING);
+        // Get Moodle root path.
+        $moodlepath = get_config('moodle', 'wwwroot');
+
+        // Get the configured public path.
+        $publicpath = get_config('moodle', 'local_syllabusuploader_public_path');
+
+        // TODO: DELETE ME.
+        $publicpath = !empty($publicpath)
+            ? $publicpath
+            : '/local/syllabusuploader/syllabus/';
+
+        // Build the link prefix.
+        $filelink = $moodlepath . $publicpath;
+
+        // Grab a preliminary list of files.
+        $nonmoodlefilestemp = scandir($settingspath, SCANDIR_SORT_ASCENDING);
+
+        // Sort it.
+        if ($sort != 'desc') {
+            $sorthint = true;
+        } else {
+            rsort($nonmoodlefilestemp);
+            $sorthint = false;
+        }
+
+        // Build this array for later.
         $nonmoodlefiles = array();
+
+        // Set the counter.
         $counter = 0;
+
+        // Loop through the files and do stuff.
         foreach ($nonmoodlefilestemp as $fcheck) {
-            if ($fcheck == '.' || $fcheck == '..') {
+            // Make sure we don't send non-syllabus files or folders.
+            if ($fcheck == '.'
+                || $fcheck == '..'
+                || $fcheck == 'index.php'
+                || is_dir($settingspath . '/' . $fcheck)) {
                 continue;
             }
 
+            // Build the temporary array.
             $temp = array(
+                "sort" => $sorthint,
                 "nonmood_filename" => $fcheck,
+                "nonmood_fileurl" => $filelink . $fcheck,
                 "nonmood_modified" => userdate(filectime($settingspath.$fcheck)),
                 "nonmood_modifiedstamp" => filectime($settingspath.$fcheck),
                 "nonmood_hash" => md5($settingspath.$fcheck.filectime($settingspath.$fcheck)),
                 "form_value" => $counter
             );
+
+            // Increment the counter.
             $counter++;
+
+            // Build the non moodle files array.
             $nonmoodlefiles[] = $temp;
         }
+        // Return the data.
         return $nonmoodlefiles;
     }
 

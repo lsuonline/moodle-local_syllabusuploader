@@ -30,48 +30,29 @@
         <thead>
             <tr>
                 {{! -------------------- }}
-                {{#syllabusuploader_filename}}
-                    {{#isSortedAsc}}
-                        <th><a href="?sort=subject&dir=desc">{{# str }} syllabusuploader_filename, local_syllabusuploader {{/ str }}</a> {{#pix}} t/sort_asc {{/pix}}</th>
-                    {{/isSortedAsc}}
-
-                    {{^isSortedAsc}}
-                        <th><a href="?sort=subject&dir=asc">{{# str }} syllabusuploader_filename, local_syllabusuploader {{/ str }}</a> {{#pix}} t/sort_desc {{/pix}}</th>
-                    {{/isSortedAsc}}
-                {{/syllabusuploader_filename}}
                 {{^syllabusuploader_filename}}
-                    <th><a href="?sort=subject&dir=asc">{{# str }} syllabusuploader_filename, local_syllabusuploader {{/ str }}</a></th>
+                    <th>{{# str }} syllabusuploader_filename, local_syllabusuploader {{/ str }}</th>
                 {{/syllabusuploader_filename}}
-                {{! -------------------- }}
-                {{#syllabusuploader_created}}
-                    {{#isSortedAsc}}
-                        <th><a href="?sort=sent&dir=desc">{{# str }} syllabusuploader_filecreated, local_syllabusuploader {{/ str }}</a> {{#pix}} t/sort_asc {{/pix}}</th>
-                    {{/isSortedAsc}}
 
-                    {{^isSortedAsc}}
-                        <th><a href="?sort=sent&dir=asc">{{# str }} syllabusuploader_filecreated, local_syllabusuploader {{/ str }}</a> {{#pix}} t/sort_desc {{/pix}}</th>
-                    {{/isSortedAsc}}
-                {{/syllabusuploader_created}}
+                {{! -------------------- }}
                 {{^syllabusuploader_created}}
-                    <th><a href="?sort=sent&dir=asc">{{# str }} syllabusuploader_filecreated, local_syllabusuploader {{/ str }}</a></th>
+                    <th>{{# str }} syllabusuploader_filecreated, local_syllabusuploader {{/ str }}</th>
                 {{/syllabusuploader_created}}
-                {{! -------------------- }}
-                {{#syllabusuploader_modified}}
-                    {{#isSortedAsc}}
-                        <th><a href="?sort=subject&dir=desc">{{# str }} syllabusuploader_filemodified, local_syllabusuploader {{/ str }}</a> {{#pix}} t/sort_asc {{/pix}}</th>
-                    {{/isSortedAsc}}
 
-                    {{^isSortedAsc}}
-                        <th><a href="?sort=subject&dir=asc">{{# str }} syllabusuploader_filemodified, local_syllabusuploader {{/ str }}</a> {{#pix}} t/sort_desc {{/pix}}</th>
-                    {{/isSortedAsc}}
-                {{/syllabusuploader_modified}}
+                {{! -------------------- }}
                 {{^syllabusuploader_modified}}
-                    <th><a href="?sort=subject&dir=asc">{{# str }} syllabusuploader_filemodified, local_syllabusuploader {{/ str }}</a></th>
+                    <th>{{# str }} syllabusuploader_filemodified, local_syllabusuploader {{/ str }}</th>
                 {{/syllabusuploader_modified}}
-                {{! -------------------- }}
-                <th>{{# str }} syllabusuploader_copy, local_syllabusuploader {{/ str }}</th>
-                <th>{{# str }} syllabusuploader_delete, local_syllabusuploader {{/ str }}</th>
 
+                {{! -------------------- }}
+                {{^syllabusuploader_copy}}
+                    <th>{{# str }} syllabusuploader_copy, local_syllabusuploader {{/ str }}</th>
+                {{/syllabusuploader_copy}}
+
+                {{! -------------------- }}
+                {{^syllabusuploader_delete}}
+                    <th>{{# str }} syllabusuploader_delete, local_syllabusuploader {{/ str }}</th>
+                {{/syllabusuploader_delete}}
             </tr>
         </thead>
         <tbody>

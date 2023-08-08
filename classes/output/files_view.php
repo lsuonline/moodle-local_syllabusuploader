@@ -41,16 +41,31 @@ class files_view implements renderable, templatable {
      */
     public function export_for_template(renderer_base $output): array {
         global $CFG;
+
+        // Set up the page params.
+        $pageparams = [
+            'sort' => optional_param('dir', array(), PARAM_TEXT)
+        ];
+
+        // Get this ready.
+        $sort = isset($pageparams['sort']) ? $pageparams['sort'] : 'asc';
+
+        if ($sort != 'desc') {
+            $sorthint = true;
+        } else {
+            $sorthint = false;
+        }
         
         $context = \context_system::instance();
         $settingspath = get_config('moodle', "local_syllabusuploader_copy_file");
 
         \syllabusuploader_helpers::upsert_system_folder();
 
-        $nonmoodlefiles = \syllabusuploader_helpers::get_system_file_list();
+        $nonmoodlefiles = \syllabusuploader_helpers::get_system_file_list($sort);
         $tabledata = \syllabusuploader_helpers::get_syllabusuploader_file_list();
         
         $renderdata = array(
+            "sort" => $sorthint,
             "syllabusuploader_data" => $tabledata,
             "syllabusuploader_url" => $CFG->wwwroot,
             "currentpath" => $settingspath,
