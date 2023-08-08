@@ -22,6 +22,7 @@
  */
 
 require (dirname(dirname(dirname(__FILE__))) . '/config.php');
+require (dirname(__FILE__) . '/lib.php');
 require (dirname(__FILE__) . '/classes/forms/upload_form.php');
 require (dirname(__FILE__) . '/classes/models/upload_model.php');
 
@@ -153,10 +154,10 @@ if ( $mform->is_cancelled() ) {
     $supath = get_config('moodle', "local_syllabusuploader_copy_file");
 
     \syllabusuploader_helpers::upsert_system_folder();
-    // // Make sure the folder is there.
-    // if (!is_dir($supath)) {
-    //     mkdir($supath, 0777, true);
-    // }
+    // Make sure the folder is there.
+    if (!is_dir($supath)) {
+        mkdir($supath, 0777, true);
+    }
 
     // Build the stored file from the form.
     $storedfile = $mform->save_stored_file(

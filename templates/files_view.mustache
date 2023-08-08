@@ -29,17 +29,6 @@
         <caption>Files in Moodle</caption>
         <thead>
             <tr>
-                {{#fileURL}}
-                    {{#isSortedAsc}}
-                        <th><a href="?sort=url&dir=desc">{{# str }} syllabusuploader_file_link, local_syllabusuploader {{/ str }}</a> {{#pix}} t/sort_asc {{/pix}}</th>
-                    {{/isSortedAsc}}
-                    {{^isSortedAsc}}
-                        <th><a href="?sort=url&dir=asc">{{# str }} syllabusuploader_file_link, local_syllabusuploader {{/ str }}</a> {{#pix}} t/sort_desc {{/pix}}</th>
-                    {{/isSortedAsc}}
-                {{/fileURL}}
-                {{^fileURL}}
-                    <th><a href="?sort=url&dir=asc">{{# str }} syllabusuploader_file_link, local_syllabusuploader {{/ str }}</a></th>
-                {{/fileURL}}
                 {{! -------------------- }}
                 {{#syllabusuploader_filename}}
                     {{#isSortedAsc}}
@@ -93,7 +82,6 @@
                     <input type="hidden" value="{{fileid}}" name="mdl_file_id"/>
                     <input type="hidden" value="su" name="syllabusuploader_or_nonmood"/>
 
-                    <td>{{syllabusuploader_fileurl}}</td>
                     <td>{{syllabusuploader_filename}}</td>
                     <td>{{syllabusuploader_filecreated}}</td>
                     <td>{{syllabusuploader_filemodified}}</td>
