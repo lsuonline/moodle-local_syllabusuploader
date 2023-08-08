@@ -34,19 +34,29 @@ class upload_form extends moodleform {
         $mform->setType('idfile', PARAM_TEXT);
 
         // File Manager.
-        $mform->addElement('filemanager', 'syllabusuploader_file', format_string('File Manager'), 
-                null, $this->get_filemanager_options_array());
+        $mform->addElement(
+            'filemanager',
+            'syllabusuploader_file',
+            format_string('File Manager'), 
+            null,
+            $this->get_filemanager_options_array()
+        );
 
         // Buttons.
         $this->add_action_buttons();
     }
 
-    /**Set here the options available for your file manager
+    /**
+     * See the options here for file manager.
      * https://docs.moodle.org/dev/Using_the_File_API_in_Moodle_forms
      * @return options for file manager
      */
     function get_filemanager_options_array () {
-        return array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1,
-                'accepted_types' => array('*'));
+        return array(
+            'subdirs' => 0,
+            'maxbytes' => 0,
+            'maxfiles' => 1,
+            'accepted_types' => array('*')
+        );
     }
 }

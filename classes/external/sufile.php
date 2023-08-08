@@ -31,6 +31,7 @@ class sufile {
     public function get_file_list() {
         global $CFG;
 
+        $settingspath = get_config('moodle', "local_syllabusuploader_copy_file");
         $nonmoodlefiles = \syllabusuploader_helpers::get_system_file_list();
         $tabledata = \syllabusuploader_helpers::get_syllabusuploader_file_list();
 
