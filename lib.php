@@ -52,11 +52,6 @@ class syllabusuploader_helpers {
         // Get the configured public path.
         $publicpath = get_config('moodle', 'local_syllabusuploader_public_path');
 
-        // TODO: DELETE ME.
-        $publicpath = !empty($publicpath)
-            ? $publicpath
-            : '/local/syllabusuploader/syllabus/';
-
         // Build the link prefix.
         $filelink = $moodlepath . $publicpath;
 

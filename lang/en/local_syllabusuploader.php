@@ -49,4 +49,6 @@ $string['syllabusuploader_nofiles'] = 'No Files To Display';
 $string['syllabusuploader_settings'] = 'Syllabus Uploader';
 $string['syllabusuploader_copy_file'] = 'Copy File Location';
 $string['syllabusuploader_copy_file_help'] = 'Files can be uploaded and copied to the location specified here. (include forward slash at the end/)';
+$string['syllabusuploader_public_path'] = 'Public Path';
+$string['syllabusuploader_public_path_help'] = 'The (relative to moodle\'s wwwroot) public path you use for users to fetch syllabus files. (/include surrounding slashes/)';
 $string['no_upload_permissions'] = 'You do not have permission to upload and view files.';

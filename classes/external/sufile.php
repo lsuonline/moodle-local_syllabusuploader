@@ -31,8 +31,22 @@ class sufile {
     public function get_file_list() {
         global $CFG;
 
+        // Set up the page params.
+        $pageparams = [
+            'sort' => optional_param('dir', array(), PARAM_TEXT)
+        ];
+
+        // Get this ready.
+        $sort = isset($pageparams['sort']) ? $pageparams['sort'] : 'asc';
+
+        if ($sort != 'desc') {
+            $sorthint = true;
+        } else {
+            $sorthint = false;
+        }
+
         $settingspath = get_config('moodle', "local_syllabusuploader_copy_file");
-        $nonmoodlefiles = \syllabusuploader_helpers::get_system_file_list();
+        $nonmoodlefiles = \syllabusuploader_helpers::get_system_file_list($sort);
         $tabledata = \syllabusuploader_helpers::get_syllabusuploader_file_list();
 
         $renderdata = array(
