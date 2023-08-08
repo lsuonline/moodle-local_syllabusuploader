@@ -76,7 +76,6 @@ class syllabusuploader_helpers {
                 "suid" => $ufile->id,
                 "fileid" => $ufile->fileid,
                 "itemid" => $ufile->itemid,
-                "syllabusuploader_fileurl" => "fix me",
                 "syllabusuploader_filename" => $ufile->filename,
                 "syllabusuploader_filecreated" => userdate($ufile->timecreated),
                 "syllabusuploader_filemodified" => userdate($ufile->timemodified)
