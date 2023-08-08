@@ -74,7 +74,6 @@
             // --------------------------------
             // Copy File.
             // --------------------------------
-
             console.log(" ********** registerMooFileEvents START ***********");
             $('.local_syllabusuploader_container .syllabusuploader_file_copy').on('click', function(ev) {
                 ev.preventDefault();

@@ -23,7 +23,7 @@
 
 require (dirname(dirname(dirname(__FILE__))) . '/config.php');
 require (dirname(__FILE__) . '/classes/models/upload_model.php');
-require_once($CFG->dirroot . '/local/syllabusuploader/lib.php');
+require (dirname(__FILE__) . '/lib.php');
 
 // Require the user is logged in.
 require_login();
