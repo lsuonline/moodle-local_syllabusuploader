@@ -24,7 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_syllabusuploader';
-$plugin->version = 2023080400;
+$plugin->version = 2023080800;
 $plugin->requires = 2016052300;
-$plugin->release = "v0.1";
+$plugin->release = "v1.0";
 $plugin->maturity = MATURITY_STABLE;
