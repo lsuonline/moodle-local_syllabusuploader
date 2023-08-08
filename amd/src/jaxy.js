@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    local_syllabusuploader
+ * @module    local_syllabusuploader
  * @copyright  2023 onwards LSU Online & Continuing Education
  * @copyright  2023 onwards Tim Hunt, Robert Russo, David Lowe
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,7 +27,7 @@ define(['jquery', 'core/ajax',],
         /**
          * Quick check to see if the data chunk is array or object.
          *
-         * @param object or array
+         * @param {object} val or array
          * @return bool - If true then it's array or obj
          */
         isAorO: function(val) {
@@ -37,19 +37,19 @@ define(['jquery', 'core/ajax',],
         /**
          * AJAX method to access the external services for Cross Enrollment
          *
-         * @param {object} The request arguments
+         * @param {object} params The request arguments.
          * Format to make calls is:
          *      'call': [the function name],
                 'params': data you want to pass in JSON format,
                 'class': [class name AND file name, should match]
          * @return {promise} Resolved with an array of the calendar events
          */
-        SUjax: function(data_chunk) {
+        SUjax: function(params) {
             var promiseObj = new Promise(function(resolve, reject) {
                 var send_this = [{
                     methodname: 'local_syllabusuploader_sujax',
                     args: {
-                        datachunk: data_chunk,
+                        datachunk: params,
                     }
                 }];
 
@@ -66,7 +66,7 @@ define(['jquery', 'core/ajax',],
          * AJAX method to access the remote Moodle instances.
          * Going to use default jQuery ajax, not Moodles, for more control.
          *
-         * @param {object} The request arguments
+         * @param {object} params The request arguments.
          * Format to make calls is:
          *      type: GET or POST,
                 data: {
@@ -77,13 +77,13 @@ define(['jquery', 'core/ajax',],
                 url: domain + '/webservice/rest/server.php',
          * @return {promise} Resolved with an array of the calendar events
          */
-        SURemoteAjax: function(data_chunk) {
+        SURemoteAjax: function(params) {
             // var that = this;
             var promiseObj = new Promise(function(resolve) {
                 $.ajax({
-                    type: data_chunk.type,
-                    data: data_chunk.data,
-                    url: data_chunk.url,
+                    type: params.type,
+                    data: params.data,
+                    url: params.url,
                 }).done(function (response) {
                     // If token is incorrect Moodle will throw an exception.
                     if (response.hasOwnProperty('exception')) {

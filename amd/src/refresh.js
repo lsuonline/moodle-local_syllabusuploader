@@ -16,20 +16,20 @@
 /**
  * Cross Enrollment Tool
  *
- * @package   local_syllabusuploader
+ * @module   local_syllabusuploader
  * @copyright 2023 onwards Louisiana State University
  * @copyright 2023 onwards David Lowe, Robert Russo
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- define(['core/notification', 'core/templates'],
+define(['core/notification', 'core/templates'],
     function(DE, Templates) {
     'use strict';
     return {
         /**
          * From the file_button file get the list of files from the folder that's indicated
          * in the settings page. Once the list is obtained reload the template.
-         * @param {object} the json object sent to the server
+         * @param {object} params The json object sent to the server.
          * @return resolved data
          */
         refreshGeneralFiles: function (params) {

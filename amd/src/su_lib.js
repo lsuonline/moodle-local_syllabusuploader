@@ -15,8 +15,7 @@
 
 /**
  * Proctor U File Uploader
- *
- * @package   local_syllabusuploader
+ * @modual    local_syllabusuploader
  * @copyright 2023 onwards Louisiana State University
  * @copyright 2023 onwards David Lowe, Robert Russo
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -30,7 +29,6 @@ define(['jquery', 'local_syllabusuploader/jaxy'],
         /**
          * Store data in sessionStorage so it's available throughout
          *
-         * @param {object} the json object to save
          * @return null
          */
         preLoadConfig: function() {
@@ -65,7 +63,7 @@ define(['jquery', 'local_syllabusuploader/jaxy'],
          * Post data to a URL. This is a form submit and will cause a page reload POSTing data.
          *
          * @param {string} redirectUrl to post to, self if nothing passed.
-         * @param {object} the json object to post
+         * @param {object} data the json object to post
          * @return {Promise}
          */
         pushPost: function(redirectUrl, data) {
@@ -88,7 +86,6 @@ define(['jquery', 'local_syllabusuploader/jaxy'],
         /**
          * While developing call this to avoid "SULib is defined but never used."
          *
-         * @param {string} token
          * @return {Promise}
          */
         useless: function () {
@@ -99,13 +96,18 @@ define(['jquery', 'local_syllabusuploader/jaxy'],
         /**
          * Get the token for the current selected URL
          *
-         * @param {string} token
+         * @param {object} params
          * @return {Promise}
          */
         testWebServices: function (params) {
             return this.jaxyRemotePromise(params);
         },
 
+        /**
+         * Get the file list.
+         *
+         * @return {Promise}
+         */
         get_file_list: function () {
             return this.jaxyPromise({
                 'call': 'get_file_list',
@@ -116,7 +118,7 @@ define(['jquery', 'local_syllabusuploader/jaxy'],
         /**
          * Simple request to check if the file already exist.
          *
-         * @param {string} token
+         * @param {string} params
          * @return {Promise}
          */
         check_file_exists: function (params) {
@@ -134,7 +136,7 @@ define(['jquery', 'local_syllabusuploader/jaxy'],
         /**
          * Get the token for the current selected URL
          *
-         * @param {string} token
+         * @param {string} url
          * @return {Promise}
          */
         getTokenForURL: function (url) {
@@ -150,7 +152,7 @@ define(['jquery', 'local_syllabusuploader/jaxy'],
         /**
          * Check the URL to see if it's valid. This is a work in progress.
          *
-         * @param {string} token
+         * @param {string} urlString
          * @return {string}
          */
         isValidUrl: function (urlString) {
@@ -166,29 +168,31 @@ define(['jquery', 'local_syllabusuploader/jaxy'],
         /* ====================================================================== */
         /* ===================      AJAX Functions      ========================= */
         /* ====================================================================== */
-        /** Make an AJAX call and return a json object, from server,
+        /**
+         * Make an AJAX call and return a json object, from server,
          *  wrapping the AJAX call in a promise.
-         * @param - {object} the details of the ajax call
+         * @param {object} params The details of the ajax call.
          * @return {Promise}
          */
-        jaxyPromise: function (data) {
-            console.log("jaxyPromise() -> what is data to be stringified: ", data);
+        jaxyPromise: function (params) {
+            console.log("jaxyPromise() -> what is params to be stringified: ", params);
             var promiseObj = new Promise(function (resolve) {
-                jaxy.SUjax(JSON.stringify(data)).then(function (response) {
+                jaxy.SUjax(JSON.stringify(params)).then(function (response) {
                     resolve(response);
                 });
             });
             return promiseObj;
         },
 
-        /** Make an AJAX call and return a json object, from REMOTE server,
+        /**
+         * Make an AJAX call and return a json object, from REMOTE server,
          *  wrapping the AJAX call in a promise.
-         * @param - {object} the details of the ajax call
+         * @param {object} params the details of the ajax call
          * @return {Promise}
          */
-        jaxyRemotePromise: function (data) {
+        jaxyRemotePromise: function (params) {
             var promiseObj = new Promise(function (resolve) {
-                jaxy.SURemoteAjax(data).then(function (response) {
+                jaxy.SURemoteAjax(params).then(function (response) {
                     resolve(response);
                 });
             });

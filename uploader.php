@@ -152,10 +152,11 @@ if ( $mform->is_cancelled() ) {
     // Get the path from the settings.
     $supath = get_config('moodle', "local_syllabusuploader_copy_file");
 
-    // Make sure the folder is there.
-    if (!is_dir($supath)) {
-        mkdir($supath, 0777, true);
-    }
+    \syllabusuploader_helpers::upsert_system_folder();
+    // // Make sure the folder is there.
+    // if (!is_dir($supath)) {
+    //     mkdir($supath, 0777, true);
+    // }
 
     // Build the stored file from the form.
     $storedfile = $mform->save_stored_file(

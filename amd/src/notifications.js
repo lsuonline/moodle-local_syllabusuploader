@@ -14,7 +14,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    local_syllabusuploader
+ * @modual    local_syllabusuploader
  * @copyright  2023 onwards LSU Online & Continuing Education
  * @copyright  2023 onwards Tim Hunt, Robert Russo, David Lowe
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -29,11 +29,11 @@
         /**
          * Confirmation window to SAVE or CANCEL
          * Type can be either: success, warning, info, error
-         * @param {obj} A simple object with the 'message' and 'type' of notification.
+         * @param {obj} params A simple object with the 'message' and 'type' of notification.
          * @return void
          */
-        callYesNoModi: function(data) {
-            var this_data = data;
+        callYesNoModi: function(params) {
+            var this_data = params;
             var promiseObj = new Promise(function (resolve) {
 
                 MF.create({
@@ -61,18 +61,18 @@
          *      message: "This is a success test",
          *      type: "success"
          *  });
-         * @param {obj} A simple object with the 'message' and 'type' of notification.
+         * @param {obj} params A simple object with the 'message' and 'type' of notification.
          * @return void
          */
-        callNoti: function(data) {
-            if (!data.hasOwnProperty('message')) {
+        callNoti: function(params) {
+            if (!params.hasOwnProperty('message')) {
                 console.log("ERROR -> Notification was called but with no message, aborting.");
             }
-            if (!data.hasOwnProperty('type')) {
+            if (!params.hasOwnProperty('type')) {
                 // default to info
-                data.type = "info";
+                params.type = "info";
             }
-            notification.addNotification(data);
+            notification.addNotification(params);
         },
 
         /**
@@ -83,32 +83,31 @@
          *      title: "Hello",
          *      message: "This is an alert",
          *  });
-         * @param {obj} A simple object with the 'message' and 'type' of notification.
+         * @param {obj} params A simple object with the 'message' and 'type' of notification.
          * @return void
          */
-        callAlert: function(data) {
-            if (!data.hasOwnProperty('title')) {
+        callAlert: function(params) {
+            if (!params.hasOwnProperty('title')) {
                 console.log("ERROR -> An alert was called but with no message, aborting.");
             }
 
-            notification.addNotification(data);
+            notification.addNotification(params);
         },
 
         /**
          * Store the reponse object to showcase a message after page reload.
-         * @param {obj} Server Response {'success', 'data', 'msg'}
+         * @param {obj} params Server Response {'success', 'data', 'msg'}
          *
          * @return void
          */
-        storeMsg: function(data) {
-            // Save data to sessionStorage
-            sessionStorage.setItem('sent_delete_success', data.success);
-            sessionStorage.setItem('sent_delete_msg', data.msg);
+        storeMsg: function(params) {
+            // Save params to sessionStorage
+            sessionStorage.setItem('sent_delete_success', params.success);
+            sessionStorage.setItem('sent_delete_msg', params.msg);
         },
 
         /**
          *  If a message is stored then show the notification and remove it.
-         * @param void
          * @return void
          */
         showMsg: function() {

@@ -45,6 +45,8 @@ class files_view implements renderable, templatable {
         $context = \context_system::instance();
         $settingspath = get_config('moodle', "local_syllabusuploader_copy_file");
 
+        \syllabusuploader_helpers::upsert_system_folder();
+
         $nonmoodlefiles = \syllabusuploader_helpers::get_system_file_list();
         $tabledata = \syllabusuploader_helpers::get_syllabusuploader_file_list();
         

@@ -31,6 +31,17 @@ class syllabusuploader_helpers {
      *
      * @return @array of files.
      */
+    public static function upsert_system_folder() {
+        
+        // Get the path from the settings.
+        $supath = get_config('moodle', "local_syllabusuploader_copy_file");
+
+        // Make sure the folder is there.
+        if (!is_dir($supath)) {
+            mkdir($supath, 0777, true);
+        }
+    }
+
     public static function get_system_file_list() {
 
         $settingspath = get_config('moodle', "local_syllabusuploader_copy_file");

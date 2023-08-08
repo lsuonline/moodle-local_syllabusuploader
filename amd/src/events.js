@@ -14,16 +14,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Cross Enrollment Tool
- *
- * @package   local_syllabusuploader
+ * @module   local_syllabusuploader
  * @copyright 2023 onwards Louisiana State University
  * @copyright 2023 onwards David Lowe, Robert Russo
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- define(['jquery', 'local_syllabusuploader/notifications', 'local_syllabusuploader/syllabusuploader_lib', 'local_syllabusuploader/file_buttons'],
-    function($, noti, SULib, FB) {
+ define([
+    'jquery',
+    'local_syllabusuploader/notifications',
+    'local_syllabusuploader/su_lib',
+    'local_syllabusuploader/file_buttons'
+], function($, noti, SULib, FB) {
     'use strict';
     return {
         /**
@@ -31,7 +33,6 @@
          * for the system files then the events need to called again. This will be called
          * from the template file.
          *
-         * @param null
          * @return void
          */
         registerSysFileEvents: function () {
@@ -67,16 +68,18 @@
         /**
          * Register click events for the page.
          *
-         * @param null
          * @return void
          */
         registerMooFileEvents: function () {
             // --------------------------------
             // Copy File.
             // --------------------------------
+
+            console.log(" ********** registerMooFileEvents START ***********");
             $('.local_syllabusuploader_container .syllabusuploader_file_copy').on('click', function(ev) {
                 ev.preventDefault();
 
+                console.log("What is going on.....");
                 var row_data = {
                     "record": $(this).closest("tr").data("rowid"),
                     "this_form": $(this).closest("form"),

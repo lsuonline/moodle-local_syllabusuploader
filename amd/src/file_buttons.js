@@ -14,19 +14,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Cross Enrollment Tool
- *
- * @package   local_syllabusuploader
+ * @module   local_syllabusuploader
  * @copyright 2023 onwards Louisiana State University
  * @copyright 2023 onwards David Lowe, Robert Russo
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- define(['jquery', 'local_syllabusuploader/notifications', 'local_syllabusuploader/syllabusuploader_lib', 'local_syllabusuploader/refresh'],
-    function($, noti, SULib, Refresh) {
+ define([
+    'jquery',
+    'local_syllabusuploader/notifications',
+    'local_syllabusuploader/su_lib',
+    'local_syllabusuploader/refresh'
+], function($, noti, SULib, Refresh) {
     'use strict';
     return {
-
+        /**
+         * Confirm the button action.
+         *
+         * @param {object} params Data for the noti message.
+         * @return bool - If true then it's array or obj
+         */
         confirmCheckExecute: function (params) {
             // First let's confirm.
             noti.callYesNoModi(params).then(function (response) {
