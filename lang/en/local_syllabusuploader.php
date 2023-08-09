@@ -39,6 +39,14 @@ $string['manage_uploader'] = 'File Uploader';
 $string['manage_viewer'] = 'File Viewer';
 $string['syllabusuploader_uploadstring'] = 'Upload a File';
 $string['no_upload_permissions'] = 'You do not have permission to upload files.';
+
+$string['syllabusuploader_path_settings_title'] = 'Path Settings';
+$string['syllabusuploader_user_settings_title'] = 'User Settings';
+$string['syllabusuploader_manager_settings_title'] = 'File Manager Settings';
+$string['syllabusuploader_manager_max_files_title'] = 'Uploading Files Maximum';
+$string['syllabusuploader_manager_max_files_desc'] = 'The maximum number of files that  a user can upload at once.';
+$string['syllabusuploader_manager_acceptedtypes_title'] = 'Accepted File Types';
+$string['syllabusuploader_manager_acceptedtypes_desc'] = 'A comma seperated list of the file types that are allowed to be uploaded. For example: pdf,doc,txt';
 $string['syllabusuploader_file_link'] = 'File Link';
 $string['syllabusuploader_filename'] = 'File Name';
 $string['syllabusuploader_filecreated'] = 'Created';

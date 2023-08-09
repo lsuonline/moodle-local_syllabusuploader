@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -97,9 +96,8 @@ class sufile {
                     "msg" => "Sorry, this file already exists in that location."
                 );
 
-            // File is new.
             } else {
-                // Copy the file.
+                // File is new, copy the file.
                 $file->copy_content_to($fpath. $fname);
                 // TODO: Check if the file copied and let the user know.
                 return array(

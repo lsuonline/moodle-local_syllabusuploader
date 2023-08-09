@@ -22,10 +22,10 @@
  */
 
 // Require some stuffs.
-require (dirname(dirname(dirname(__FILE__))) . '/config.php');
-require (dirname(__FILE__) . '/lib.php');
-require (dirname(__FILE__) . '/classes/forms/upload_form.php');
-require (dirname(__FILE__) . '/classes/models/upload_model.php');
+require(dirname(dirname(dirname(__FILE__))) . '/config.php');
+require(dirname(__FILE__) . '/lib.php');
+require(dirname(__FILE__) . '/classes/forms/upload_form.php');
+require(dirname(__FILE__) . '/classes/models/upload_model.php');
 
 // Require the user is logged in.
 require_login();
@@ -38,7 +38,11 @@ $allowed = \syllabusuploader_helpers::syllabusuploader_user($USER);
 
 // Check to see if the user is admin.
 if (!$allowed) {
-    redirect($returnurl, get_string('no_upload_permissions', 'local_syllabusuploader'), null, \core\output\notification::NOTIFY_ERROR);
+    redirect($returnurl,
+        get_string('no_upload_permissions', 'local_syllabusuploader'),
+        null,
+        \core\output\notification::NOTIFY_ERROR
+    );
 }
 
 // Set these parms up for future use.
@@ -61,36 +65,52 @@ $uploadfile = null;
 // If we have an id provided for a Moodle file, grab the file info.
 if ($id) {
     $uploadfile = $DB->get_record('local_syllabusuploader_file', array('id' => $cm->instance), '*', MUST_EXIST);
-// If we have an id provided for a non-Moodle file, grab the file info.
 } else if ($n) {
+    // If we have an id provided for a non-Moodle file, grab the file info.
     $uploadfile = $DB->get_record('local_syllabusuploader_file', array('id' => $n), '*', MUST_EXIST);
-// Otherwise we prepare for an upload.
 } else {
+    // Otherwise we prepare for an upload.
     $uploadfile = new stdClass();
     $uploadfile->name = get_string('syllabusuploader_uploadstring', 'local_syllabusuploader');
     $uploadfile->id = 0;
-}    
+}
 
+// Set the context.
+$context = context_system::instance();
 // Set up the page.
 $PAGE->set_context($context);
 $PAGE->set_url($url, $params);
 $PAGE->set_title(format_string($uploadfile->name));
-$PAGE->navbar->add(get_string('settings', 'local_syllabusuploader'), new moodle_url($CFG->wwwroot. "/admin/settings.php?section=syllabusuploader"));
-$PAGE->navbar->add(get_string('manage_uploader', 'local_syllabusuploader'), new moodle_url($CFG->wwwroot. "/local/syllabusuploader/uploader.php"));
-$PAGE->set_heading(get_string('syllabusuploader_uploadstring','local_syllabusuploader'));
+$PAGE->navbar->add(
+    get_string('settings', 'local_syllabusuploader'),
+    new moodle_url($CFG->wwwroot. "/admin/settings.php?section=syllabusuploader")
+);
+$PAGE->navbar->add(
+    get_string('manage_uploader', 'local_syllabusuploader'),
+    new moodle_url($CFG->wwwroot. "/local/syllabusuploader/uploader.php")
+);
+$PAGE->set_heading(get_string('syllabusuploader_uploadstring', 'local_syllabusuploader'));
 $PAGE->set_pagelayout('base');
 
-// Set the contect.
-$context = context_system::instance();
+// If we want to push any data to javascript then we can add it here.
+debugging() ? $debugjs = true : $debugjs = false;
+$initialload = array(
+    "debugging" => $debugjs,
+);
+$initialload = json_encode($initialload, JSON_HEX_APOS | JSON_HEX_QUOT);
+$xtras = "<script>window.__SERVER__=true</script>".
+    "<script>window.__INITIAL_STATE__='".$initialload."'</script>";
 
-// TODO: Set up logging.
-// $event = \local_syllabusuploader\event\course_module_viewed::create(array(
-//             'objectid' => $PAGE->cm->instance,
-//             'context' => $PAGE->context,
-//         ));
-// $event->add_record_snapshot('course', $PAGE->course);
-// $event->add_record_snapshot($PAGE->cm->modname, $uploadfile);
-// $event->trigger();
+/*
+TODO: Set up logging.
+$event = \local_syllabusuploader\event\course_module_viewed::create(array(
+    'objectid' => $PAGE->cm->instance,
+    'context' => $PAGE->context,
+));
+$event->add_record_snapshot('course', $PAGE->course);
+$event->add_record_snapshot($PAGE->cm->modname, $uploadfile);
+$event->trigger();
+*/
 
 // Build the model.
 $model = new upload_model();
@@ -111,10 +131,17 @@ if ($uploadfile->id != 0) {
     $mform = new upload_form('./uploader.php?id='.$id. "&action={$action}&idfile={$file->id}");
 
     // Copy all the files from the 'real' area, into the draft area.
-    file_prepare_draft_area($file->local_syllabusuploader_file, $context->id, 'local_syllabusuploader', 'local_syllabusuploader_file', $file->local_syllabusuploader_files, null);
+    file_prepare_draft_area(
+        $file->local_syllabusuploader_file,
+        $context->id,
+        'local_syllabusuploader',
+        'local_syllabusuploader_file',
+        $file->local_syllabusuploader_files,
+        null
+    );
 
-    // Set form data: This will load the file manager with your previous files
-    $mform->set_data($file); 
+    // Set form data: This will load the file manager with your previous files.
+    $mform->set_data($file);
 
 } else {
     // Upload a new file.
@@ -125,11 +152,11 @@ if ($uploadfile->id != 0) {
 
 
 // Build a button for viewing files.
-$htmltidbits = html_writer::start_tag( 'a', array( 'href' => "./view.php" ) )
-        .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
-        .format_string( get_string('manage_viewer', 'local_syllabusuploader') )
-        .html_writer::end_tag('button')
-        .html_writer::end_tag( 'a' );
+$htmltidbits = html_writer::start_tag('a', array('href' => "./view.php"))
+    .html_writer::start_tag('button', array('type' => 'button', 'class' => 'btn btn-primary', 'style' => 'margin:3%; width:20%'))
+    .format_string(get_string('manage_viewer', 'local_syllabusuploader'))
+    .html_writer::end_tag('button')
+    .html_writer::end_tag('a');
 
 // IF we cancel, redirect.
 if ( $mform->is_cancelled() ) {
@@ -150,17 +177,14 @@ if ( $mform->is_cancelled() ) {
     // Gets the content.
     $content = $mform->get_file_content('syllabusuploader_file');
 
-    // To get the name of the uploaded file
+    // To get the name of the uploaded file.
     $name = $mform->get_new_filename('syllabusuploader_file');
 
     // Get the path from the settings.
     $supath = get_config('moodle', "local_syllabusuploader_copy_file");
 
-    \syllabusuploader_helpers::upsert_system_folder();
     // Make sure the folder is there.
-    if (!is_dir($supath)) {
-        mkdir($supath, 0777, true);
-    }
+    \syllabusuploader_helpers::upsert_system_folder();
 
     // Build the stored file from the form.
     $storedfile = $mform->save_stored_file(
@@ -176,7 +200,10 @@ if ( $mform->is_cancelled() ) {
 
     // Save or update in local table uploadfile_files.
     if ($action == 'ADD') {
-        $model->save($formdata);
+        if (!$model->save($formdata)) {
+            // Something failed when trying to save files.
+            \core\notification::error("Error: There was an issue saving one of the files. Please try again.");
+        }
     } else {
         $formdata->id = $fileid;
         $model->update($formdata);
@@ -188,7 +215,7 @@ if ( $mform->is_cancelled() ) {
 
 // Output the header.
 echo $OUTPUT->header();
-
+echo $xtras;
 // Output the custom html.
 echo $htmltidbits;
 

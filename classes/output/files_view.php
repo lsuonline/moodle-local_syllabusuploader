@@ -28,6 +28,7 @@ use renderer_base;
 use templatable;
 use stdClass;
 
+defined('MOODLE_INTERNAL') || die;
 global $CFG;
 
 require_once($CFG->dirroot . '/local/syllabusuploader/lib.php');
@@ -77,7 +78,7 @@ class files_view implements renderable, templatable {
 
         // Build the Moodle files array.
         $tabledata = \syllabusuploader_helpers::get_syllabusuploader_file_list();
-        
+
         // Prepare the array for the renderer.
         $renderdata = array(
             "sort" => $sorthint,

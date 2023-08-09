@@ -39,7 +39,7 @@
                 MF.create({
                     type: MF.types.SAVE_CANCEL,
                     title: this_data.title,
-                    body: this_data.body
+                    body: this_data.body + "<span class='justdoitnow'></span>"
                 })
                 .then(function(modal) {
                     modal.setSaveButtonText(this_data.save_button);

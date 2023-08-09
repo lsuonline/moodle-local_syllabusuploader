@@ -38,11 +38,15 @@ class upload_model {
 
         // Try to insert the record.
         try {
-            // Insert the record and return true/false.
-            $response = $DB->insert_record('local_syllabusuploader_file', $trob, $returnid = true);
+            foreach ($trob as $disfile) {
+                // Insert the record and return true/false.
+                if (!$response = $DB->insert_record('local_syllabusuploader_file', $disfile, $returnid = true)) {
+                    return false;
+                }
+            }
             return $response;
         } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
+            debugging("Uh Oh....NOTICE - something did done broken. ". $ex);
         }
     }
 
@@ -57,7 +61,7 @@ class upload_model {
             $response = $DB->update_record('local_syllabusuploader_file', $object, false);
             return $response;
         } catch (Exception $ex) {
-
+            debugging("Uh Oh....NOTICE - something did done broken. ". $ex);
         }
     }
 
@@ -67,9 +71,14 @@ class upload_model {
         // Try to get the records.
         try {
             // Return the data.
-            return $DB->get_records('local_syllabusuploader_file', array('instance' => $instance), null, 'instance, local_syllabusuploader_files')[$instance];
+            return $DB->get_records(
+                'local_syllabusuploader_file',
+                array('instance' => $instance),
+                null,
+                'instance, local_syllabusuploader_files'
+            )[$instance];
         } catch (Exception $ex) {
-
+            debugging("Uh Oh....NOTICE - something did done broken. ". $ex);
         }
     }
 
@@ -87,7 +96,7 @@ class upload_model {
             $file->delete();
 
         } catch (Exception $ex) {
-            error_log("Uh Oh....NOTICE - something didn't delete properly");
+            debugging("Uh Oh....NOTICE - something didn't delete properly. ". $ex);
         }
     }
 
@@ -103,27 +112,17 @@ class upload_model {
         // Get the files.
         $files = $DB->get_records_sql($sql);
 
-        // Count them.
-        $count = count($files);
-
-        // If we have 1 file.
-        if ($count == 1) {
-
-            // Set file to the value.
-            $files = array_values($files);
-
-            // Trurn the array.
-            return array(
-                "fileid" => $files[0]->id,
-                "filename" => $files[0]->filename,
-                "itemid" => $files[0]->itemid,
-                "timecreated" => $files[0]->timecreated,
-                "timemodified" => $files[0]->timemodified,
+        $listoffiles = array();
+        foreach ($files as $file) {
+            $temp = array(
+                "fileid" => $file->id,
+                "filename" => $file->filename,
+                "itemid" => $file->itemid,
+                "timecreated" => $file->timecreated,
+                "timemodified" => $file->timemodified
             );
-        } else {
-            error_log("\n\n\e[0;31m****************************************************");
-            error_log("\e[0;31mupload_model -> ERROR: returned multiple objects");
-            error_log("\e[0;31m****************************************************\n\n");
+            $listoffiles[] = $temp;
         }
+        return $listoffiles;
     }
 }

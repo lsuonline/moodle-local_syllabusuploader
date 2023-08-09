@@ -42,10 +42,10 @@ foreach ($allowedusers as $alloweduser) {
     if ($alloweduser == $USER->email && $permitted) {
         $allowed = true;
         break;
-    // We're using usernames.
     } else if ($alloweduser == $USER->username && $permitted) {
-         $allowed = true;
-         break;
+        // We're using usernames.
+        $allowed = true;
+        break;
     }
     // You suck.
     $allowed = false;
@@ -58,10 +58,20 @@ $fn = new lang_string('foldername', 'local_syllabusuploader');
 $ADMIN->add('localplugins', new admin_category('local_syllabusuploader_folder', $fn));
 
 // Create the local settings.
-$settings = new admin_settingpage($section="syllabusuploader", get_string('settings'));
+$settings = new admin_settingpage($section = "syllabusuploader", get_string('settings'));
 
 // Make sure only admins see this one.
 if ($ADMIN->fulltree) {
+
+    // ----------------------------------------------
+    // Path Settings Title.
+    $settings->add(
+        new admin_setting_heading(
+            'local_syllabusuploader_path_settings',
+            get_string('syllabusuploader_path_settings_title', 'local_syllabusuploader'),
+            ''
+        )
+    );
 
     // Copy File Settings.
     $settings->add(
@@ -83,6 +93,15 @@ if ($ADMIN->fulltree) {
         )
     );
 
+    // ----------------------------------------------
+    // User Settings Title.
+    $settings->add(
+        new admin_setting_heading(
+            'local_syllabusuploader_user_settings',
+            get_string('syllabusuploader_user_settings_title', 'local_syllabusuploader'),
+            ''
+        )
+    );
     // The named users setting.
     $settings->add(
         new admin_setting_configtext(
@@ -92,6 +111,36 @@ if ($ADMIN->fulltree) {
             'admin@school.com' // Default.
         )
     );
+
+    // ----------------------------------------------
+    // File Manager Title.
+    $settings->add(
+        new admin_setting_heading(
+            'local_syllabusuploader_manager_settings',
+            get_string('syllabusuploader_manager_settings_title', 'local_syllabusuploader'),
+            ''
+        )
+    );
+    // Max files to be uploaded.
+    $settings->add(
+        new admin_setting_configtext(
+            'local_syllabusuploader_manager_max_files',
+            get_string('syllabusuploader_manager_max_files_title', 'local_syllabusuploader'),
+            get_string('syllabusuploader_manager_max_files_desc', 'local_syllabusuploader'),
+            '1' // Default.
+        )
+    );
+    // Accepted file types.
+    $settings->add(
+        new admin_setting_configtext(
+            'local_syllabusuploader_manager_acceptedtypes',
+            get_string('syllabusuploader_manager_acceptedtypes_title', 'local_syllabusuploader'),
+            get_string('syllabusuploader_manager_acceptedtypes_desc', 'local_syllabusuploader'),
+            'pdf' // Default.
+        )
+    );
+
+
 }
 
 // Add the folder.

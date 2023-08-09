@@ -27,7 +27,7 @@ require_once($CFG->libdir . '/formslib.php');
 
 class upload_form extends moodleform {
 
-    function definition() {
+    public function definition() {
 
         // Build the form.
         $mform = $this->_form;
@@ -38,7 +38,7 @@ class upload_form extends moodleform {
         $mform->addElement(
             'filemanager',
             'syllabusuploader_file',
-            format_string('File Manager'), 
+            format_string('File Manager'),
             null,
             $this->get_filemanager_options_array()
         );
@@ -52,12 +52,20 @@ class upload_form extends moodleform {
      * https://docs.moodle.org/dev/Using_the_File_API_in_Moodle_forms
      * @return options for file manager
      */
-    function get_filemanager_options_array () {
+    public function get_filemanager_options_array () {
+        // Get the allowed users from config.
+        $maxfiles = (int)get_config('moodle', 'local_syllabusuploader_manager_max_files');
+        $types = explode(',', get_config('moodle', 'local_syllabusuploader_manager_acceptedtypes'));
+
+        // If no type has been specified then resort to all.
+        if (empty($types)) {
+            $types = array('*');
+        }
         return array(
             'subdirs' => 0,
             'maxbytes' => 0,
-            'maxfiles' => 1,
-            'accepted_types' => array('*')
+            'maxfiles' => $maxfiles,
+            'accepted_types' => $types
         );
     }
 }

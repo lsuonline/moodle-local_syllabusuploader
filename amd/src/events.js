@@ -39,6 +39,10 @@
             // --------------------------------
             // Delete NON Moodle File.
             // --------------------------------
+            SULib.preLoadConfig();
+            if (sessionStorage.getItem('debugging') === "true") {
+                console.log(" ********** registerSysFileEvents START ***********");
+            }
             $('.local_syllabusuploader_container .nonmood_file_delete').on('click', function(ev) {
                 ev.preventDefault();
 
@@ -74,11 +78,13 @@
             // --------------------------------
             // Copy File.
             // --------------------------------
-            console.log(" ********** registerMooFileEvents START ***********");
+            if (sessionStorage.getItem('debugging') === "true") {
+                console.log(" ********** registerMooFileEvents START ***********");
+            }
+
             $('.local_syllabusuploader_container .syllabusuploader_file_copy').on('click', function(ev) {
                 ev.preventDefault();
 
-                console.log("What is going on.....");
                 var row_data = {
                     "record": $(this).closest("tr").data("rowid"),
                     "this_form": $(this).closest("form"),
@@ -87,7 +93,9 @@
                     "save_button": "Copy",
                     "mfileid": $(this).closest("tr").find('input[name=mdl_file_id]').val()
                 };
-
+                if (sessionStorage.getItem('debugging') === "true") {
+                    console.log("Debugging: Data being sent to confirm check is: ", row_data);
+                }
                 FB.confirmCheckExecute(row_data);
             });
 
@@ -111,6 +119,16 @@
                         this_form.submit();
                     }
                 });
+            });
+
+            //Bind keypress event to document
+            $(document).keypress(function(event){
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if(keycode == '13'){
+                    if ($('.justdoitnow').length) {
+                        $('.justdoitnow').parent().next().find('.btn.btn-primary').click();
+                    }
+                }
             });
         },
 

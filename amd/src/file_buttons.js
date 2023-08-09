@@ -56,6 +56,9 @@
                     } else {
                         // Get the current list of files from the folder that's indicated
                         // in the settings page.
+                        if (sessionStorage.getItem('debugging') === "true") {
+                            console.log("Debugging: check file exists response is: ", response);
+                        }
                         SULib.get_file_list(response).then(function (response) {
                             Refresh.refreshGeneralFiles(response);
                         });

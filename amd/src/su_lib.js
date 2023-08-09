@@ -45,7 +45,8 @@ define(['jquery', 'local_syllabusuploader/jaxy'],
                     }
                 }
             } else {
-                console.log("WARNING: window.__SERVER__ was not set");
+                return;
+                // console.log("WARNING: window.__SERVER__ was not set");
             }
             for (var key in window_stat) {
                 if (typeof(window_stat[key]) === 'object') {
