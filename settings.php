@@ -23,6 +23,34 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+// Set the context.
+$context = \context_system::instance();
+
+// Check the cap and set the accressrule accordingly.
+$permitted = has_capability('local/syllabusuploader:admin', $context);
+
+// Get the allowed users from config.
+$alloweduserlist = get_config('moodle', 'local_syllabusuploader_admins');
+
+// Make an array out of the list.
+$allowedusers = explode(',', $alloweduserlist);
+
+// Loop through them and see if the user requesting access is allowed.
+foreach ($allowedusers as $alloweduser) {
+
+    // We're using emails.
+    if ($alloweduser == $USER->email && $permitted) {
+        $allowed = true;
+        break;
+    // We're using usernames.
+    } else if ($alloweduser == $USER->username && $permitted) {
+         $allowed = true;
+         break;
+    }
+    // You suck.
+    $allowed = false;
+}
+
 // Set the string for use later.
 $fn = new lang_string('foldername', 'local_syllabusuploader');
 
@@ -34,6 +62,7 @@ $settings = new admin_settingpage($section="syllabusuploader", get_string('setti
 
 // Make sure only admins see this one.
 if ($ADMIN->fulltree) {
+
     // Copy File Settings.
     $settings->add(
         new admin_setting_configtext(
@@ -44,6 +73,7 @@ if ($ADMIN->fulltree) {
         )
     );
 
+    // The public path setting.
     $settings->add(
         new admin_setting_configtext(
             'local_syllabusuploader_public_path',
@@ -53,6 +83,7 @@ if ($ADMIN->fulltree) {
         )
     );
 
+    // The named users setting.
     $settings->add(
         new admin_setting_configtext(
             'local_syllabusuploader_admins',
@@ -83,11 +114,8 @@ $suviewer = new admin_externalpage(
     "$CFG->wwwroot/local/syllabusuploader/view.php"
 );
 
-// Add the ProctorU override tool url.
-$context = \context_system::instance();
-
-// Add the link for those who have access.
-if (has_capability('local/syllabusuploader:admin', $context)) {
+// Add the additional links for those who have access.
+if ($allowed) {
     $ADMIN->add('local_syllabusuploader_folder', $suuploader);
     $ADMIN->add('local_syllabusuploader_folder', $suviewer);
 }
