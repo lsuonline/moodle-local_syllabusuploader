@@ -39,7 +39,7 @@ if ($ADMIN->fulltree) {
         new admin_setting_configtext(
             'local_syllabusuploader_copy_file',
             get_string('syllabusuploader_copy_file', 'local_syllabusuploader'),
-            get_string('syllabusuploader_copy_file_help', 'local_syllabusuploader'),
+            get_string('syllabusuploader_copy_file_desc', 'local_syllabusuploader'),
             '/var/moodledata/syllabus/' // Default.
         )
     );
@@ -48,8 +48,17 @@ if ($ADMIN->fulltree) {
         new admin_setting_configtext(
             'local_syllabusuploader_public_path',
             get_string('syllabusuploader_public_path', 'local_syllabusuploader'),
-            get_string('syllabusuploader_public_path_help', 'local_syllabusuploader'),
+            get_string('syllabusuploader_public_path_desc', 'local_syllabusuploader'),
             '/syllabus/' // Default.
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'local_syllabusuploader_admins',
+            get_string('syllabusuploader_admins', 'local_syllabusuploader'),
+            get_string('syllabusuploader_admins_desc', 'local_syllabusuploader'),
+            'admin@school.com' // Default.
         )
     );
 }

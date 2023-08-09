@@ -29,14 +29,14 @@ require (dirname(__FILE__) . '/classes/models/upload_model.php');
 // Require the user is logged in.
 require_login();
 
-// Set the context.
-$context = \context_system::instance();
-
 // Build the return url.
 $returnurl = new moodle_url('/');
 
+// Set the bool for access permission.
+$allowed = \syllabusuploader_helpers::syllabusuploader_user($USER);
+
 // Check to see if the user is admin.
-if (!has_capability('local/syllabusuploader:admin', $context)) {
+if (!$allowed) {
     redirect($returnurl, get_string('no_upload_permissions', 'local_syllabusuploader'), null, \core\output\notification::NOTIFY_ERROR);
 }
 

@@ -29,6 +29,7 @@ use templatable;
 use stdClass;
 
 global $CFG;
+
 require_once($CFG->dirroot . '/local/syllabusuploader/lib.php');
 
 require_login();
@@ -40,7 +41,15 @@ class files_view implements renderable, templatable {
      * @return stdClass
      */
     public function export_for_template(renderer_base $output): array {
-        global $CFG;
+        global $USER, $CFG;
+
+        // Set the bool for access permission.
+        $allowed = \syllabusuploader_helpers::syllabusuploader_user($USER);
+
+        // Check to see if the user is admin.
+        if (!$allowed) {
+            return array();
+        }
 
         // Set up the page params.
         $pageparams = [
@@ -56,7 +65,6 @@ class files_view implements renderable, templatable {
             $sorthint = false;
         }
         
-        $context = \context_system::instance();
         $settingspath = get_config('moodle', "local_syllabusuploader_copy_file");
 
         \syllabusuploader_helpers::upsert_system_folder();

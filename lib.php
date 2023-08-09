@@ -103,6 +103,37 @@ class syllabusuploader_helpers {
         return $nonmoodlefiles;
     }
 
+    public static function syllabusuploader_user($user) {
+        // Set the context.
+        $context = \context_system::instance();
+
+        // Check the cap and set the accressrule accordingly.
+        $permitted = has_capability('local/syllabusuploader:admin', $context);
+
+        // Get the allowed users from config.
+        $alloweduserlist = get_config('moodle', 'local_syllabusuploader_admins');
+
+        // Make an array out of the list.
+        $allowedusers = explode(',', $alloweduserlist);
+
+        // Loop through them and see if the user requesting access is allowed.
+        foreach ($allowedusers as $alloweduser) {
+
+            // We're using emails.
+            if ($alloweduser == $user->email && $permitted) {
+                return true;
+            }
+
+            // We're using usernames.
+            if ($alloweduser == $user->username && $permitted) {
+                return true;
+            }
+        }
+
+        // We did not find the user, boot them.
+        return false;
+    }
+
     public static function get_syllabusuploader_file_list() {
         global $DB;
         $uploadedfiles = $DB->get_records('local_syllabusuploader_file');
