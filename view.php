@@ -21,6 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// require some stuffs.
 require (dirname(dirname(dirname(__FILE__))) . '/config.php');
 require (dirname(__FILE__) . '/lib.php');
 require (dirname(__FILE__) . '/classes/models/upload_model.php');
@@ -61,24 +62,31 @@ $mfileid = optional_param('mdl_file_id', 0, PARAM_INT);
 $pfileid = optional_param('syllabusuploader_file_id', 0, PARAM_INT);
 $filetype = optional_param('syllabusuploader_or_nonmood', '', PARAM_TEXT);
 $nonmood_filename = optional_param('nonmood_filename', '', PARAM_TEXT);
+
+// Get the publicly accessible path.
 $fpath = get_config('moodle', 'local_syllabusuploader_copy_file');
 
 // Copy the file to destination or delete the file?
 if ($action === "copy") {
     // We are copying the file, check to see if there's a destination configured.
     if (!isset($fpath)) {
+        // I have no clie how we get here as if it's configured, we create it anyway.
         debugging("FAIL, no destination set for this file.");
     } else {
+        // Get the storage info.
         $fs = get_file_storage();
         $file = $fs->get_file_by_id($mfileid);
         $fname = $file->get_filename();
     }
 
+// We're deleting the file.
 } else if ($action === "delete") {
     // We are deleting the file.
     if ($filetype === "su") {
+        // Delete the moodle file.
         $model->delete($pfileid, $mfileid);
     } else if ($filetype === "nonmood") {
+        // Delete the non-Moodle file.
         unlink($fpath.$nonmood_filename);
     }
 }

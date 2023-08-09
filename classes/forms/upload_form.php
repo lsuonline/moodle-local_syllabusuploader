@@ -28,7 +28,8 @@ require_once($CFG->libdir . '/formslib.php');
 class upload_form extends moodleform {
 
     function definition() {
-        
+
+        // Build the form.
         $mform = $this->_form;
         $mform->addElement('hidden', 'idfile', true);
         $mform->setType('idfile', PARAM_TEXT);

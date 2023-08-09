@@ -32,12 +32,15 @@ class upload_model {
      */
     public function save($object) {
         global $DB;
-        $trob = $this->transform($object);
-        try {
 
+        // Transform the object.
+        $trob = $this->transform($object);
+
+        // Try to insert the record.
+        try {
+            // Insert the record and return true/false.
             $response = $DB->insert_record('local_syllabusuploader_file', $trob, $returnid = true);
             return $response;
-
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
         }
@@ -46,8 +49,11 @@ class upload_model {
     public function update($object) {
         global $DB;
 
+        // Try to update the record.
         try {
+            // Set the id.
             $object->id = $object->idfile;
+            // Update the record and return true/false.
             $response = $DB->update_record('local_syllabusuploader_file', $object, false);
             return $response;
         } catch (Exception $ex) {
@@ -58,7 +64,9 @@ class upload_model {
     public function get($instance) {
         global $DB;
 
+        // Try to get the records.
         try {
+            // Return the data.
             return $DB->get_records('local_syllabusuploader_file', array('instance' => $instance), null, 'instance, local_syllabusuploader_files')[$instance];
         } catch (Exception $ex) {
 
@@ -67,10 +75,15 @@ class upload_model {
 
     public function delete($pfileid, $mfileid) {
         global $DB;
+        // Try to delete the records.
         try {
+            // Delete the record.
             $DB->delete_records('local_syllabusuploader_file', array("id" => $pfileid));
+            // Get the file manager.
             $fs = get_file_storage();
+            // Get the file.
             $file = $fs->get_file_by_id($mfileid);
+            // Delete it.
             $file->delete();
 
         } catch (Exception $ex) {
@@ -81,17 +94,25 @@ class upload_model {
     public function transform($object) {
         global $DB;
 
+        // Build the SQL.
         $sql = "SELECT * FROM mdl_files
             WHERE itemid = ". $object->syllabusuploader_file."
             AND filename <> '.'
             AND filearea <> 'draft'";
 
+        // Get the files.
         $files = $DB->get_records_sql($sql);
+
+        // Count them.
         $count = count($files);
 
+        // If we have 1 file.
         if ($count == 1) {
+
+            // Set file to the value.
             $files = array_values($files);
 
+            // Trurn the array.
             return array(
                 "fileid" => $files[0]->id,
                 "filename" => $files[0]->filename,

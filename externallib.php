@@ -47,12 +47,19 @@ class local_syllabusuploader_external extends external_api {
      * @return string welcome message
      */
     public static function sujax($datachunk) {
+        // Decode the data chunk.
         $datachunk = json_decode($datachunk);
 
+        // Set the classobj.
         $classobj = isset($datachunk->class) ? $datachunk->class : null;
+
+        // Set the function.
         $function = isset($datachunk->call) ? $datachunk->call : null;
+
+        // Se the params.
         $params = isset($datachunk->params) ? $datachunk->params : array("empty" => true);
 
+        // If we have stuff, include stuff.
         if (isset($classobj)) {
             include_once('classes/external/'.$classobj.'.php');
             $suclass = new $classobj();
@@ -64,6 +71,7 @@ class local_syllabusuploader_external extends external_api {
 
         // Now let's call the method.
         $leftoverdata = null;
+        // Sanity checks.
         if (method_exists($suclass, $function)) {
             $leftoverdata = call_user_func(array($suclass, $function), $params);
         } else {

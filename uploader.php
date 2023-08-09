@@ -21,6 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// Require some stuffs.
 require (dirname(dirname(dirname(__FILE__))) . '/config.php');
 require (dirname(__FILE__) . '/lib.php');
 require (dirname(__FILE__) . '/classes/forms/upload_form.php');
@@ -81,6 +82,8 @@ $PAGE->set_pagelayout('base');
 
 // Set the contect.
 $context = context_system::instance();
+
+// TODO: Set up logging.
 // $event = \local_syllabusuploader\event\course_module_viewed::create(array(
 //             'objectid' => $PAGE->cm->instance,
 //             'context' => $PAGE->context,
@@ -114,6 +117,7 @@ if ($uploadfile->id != 0) {
     $mform->set_data($file); 
 
 } else {
+    // Upload a new file.
     $action = 'ADD';
     $params = null;
     $mform = new upload_form();
@@ -135,16 +139,15 @@ if ( $mform->is_cancelled() ) {
 
     // Saves the form loaded file to the database in the files table.
     file_save_draft_area_files(
-        // $formdata->attachments,
         $formdata->syllabusuploader_file,
         $context->id,
         'local_syllabusuploader',
         'syllabusuploader_file',
-        // $formdata->attachments,
         $formdata->syllabusuploader_file,
         $mform->get_filemanager_options_array()
     );
 
+    // Gets the content.
     $content = $mform->get_file_content('syllabusuploader_file');
 
     // To get the name of the uploaded file
@@ -178,6 +181,8 @@ if ( $mform->is_cancelled() ) {
         $formdata->id = $fileid;
         $model->update($formdata);
     }
+
+    // Redirect to view.
     redirect ($viewlink);
 }
 

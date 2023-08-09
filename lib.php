@@ -136,10 +136,17 @@ class syllabusuploader_helpers {
 
     public static function get_syllabusuploader_file_list() {
         global $DB;
+
+        // Get the uploaded files.
         $uploadedfiles = $DB->get_records('local_syllabusuploader_file');
+
+        // Set the initial table array.
         $tabledata = array();
+
+        // Loop through the uploaded files.
         foreach ($uploadedfiles as $ufile) {
 
+            // Build the temp array of files.
             $temp = array(
                 "suid" => $ufile->id,
                 "fileid" => $ufile->fileid,
@@ -148,8 +155,12 @@ class syllabusuploader_helpers {
                 "syllabusuploader_filecreated" => userdate($ufile->timecreated),
                 "syllabusuploader_filemodified" => userdate($ufile->timemodified)
             );
+
+            // Build the table from the data.
             $tabledata[] = $temp;
         }
+
+        // Return the table.
         return $tabledata;
     }
 }

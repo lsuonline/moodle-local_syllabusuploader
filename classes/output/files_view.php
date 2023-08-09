@@ -59,19 +59,26 @@ class files_view implements renderable, templatable {
         // Get this ready.
         $sort = isset($pageparams['sort']) ? $pageparams['sort'] : 'asc';
 
+        // We really only care about descending sorts as asc is the default.
         if ($sort != 'desc') {
             $sorthint = true;
         } else {
             $sorthint = false;
         }
-        
+
+        // Get the public path..
         $settingspath = get_config('moodle', "local_syllabusuploader_copy_file");
 
+        // Make sure the folder exists.
         \syllabusuploader_helpers::upsert_system_folder();
 
+        // Build the array of non-moodle files.
         $nonmoodlefiles = \syllabusuploader_helpers::get_system_file_list($sort);
+
+        // Build the Moodle files array.
         $tabledata = \syllabusuploader_helpers::get_syllabusuploader_file_list();
         
+        // Prepare the array for the renderer.
         $renderdata = array(
             "sort" => $sorthint,
             "syllabusuploader_data" => $tabledata,
@@ -80,6 +87,7 @@ class files_view implements renderable, templatable {
             "non_mood_files" => $nonmoodlefiles
 
         );
+        // Return the data.
         return $renderdata;
     }
 }
